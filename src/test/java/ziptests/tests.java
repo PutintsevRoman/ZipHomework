@@ -2,15 +2,16 @@ package ziptests;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.opencsv.CSVReader;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,5 +55,19 @@ public class tests {
            }
 
         }
+    }
+
+    @Test
+    void jsonTest() throws Exception{
+
+        InputStream is = classLoader.getResourceAsStream("staff.json");
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(new InputStreamReader(is, UTF_8));
+
+        assertThat(jsonNode.get("name").asText()).isEqualTo("Valera");
+        assertThat(jsonNode.get("age").asInt()).isEqualTo(20);
+        assertThat(jsonNode.withArray("skills").toString()).isEqualTo( "[\"Java\",\"Selenide\",\"Python\"]");
+        assertThat(jsonNode.get("id").get("number").asInt()).isEqualTo(1234);
+
     }
 }

@@ -1,0 +1,9 @@
+{
+  "name":"Valera",
+  "age":20,
+  "coolboy":true,
+  "skills":["Java","Selenide","Python"],
+  "id": {
+    "number": 1234
+  }
+}
